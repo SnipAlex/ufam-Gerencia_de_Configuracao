@@ -5,7 +5,7 @@ function logger(type) {
         }
     }
     if(type  === 'detailed') {
-        return (res, req, next) => {
+        return (req, res, next) => {
             console.log("emulacao de um log longo.")
         }
     }    
