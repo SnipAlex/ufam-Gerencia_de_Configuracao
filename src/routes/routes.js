@@ -1,8 +1,9 @@
 import express from "express"
+
 const router = express.Router()
 
 router.get("/", (req, res) =>{
-    res.send("Caiu na vila");
+    res.send("Hello World Back");
 });
 
 export default router;
