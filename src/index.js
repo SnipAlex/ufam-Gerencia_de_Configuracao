@@ -12,7 +12,7 @@ const app = express()
 //app.use(logger("tiny"));
 //app.use(routes)
 app.get("/", (req, res) => {
-    res.send("Hello world")
+    res.send("Hello world miranda")
 });
 
 app.listen(PORT, () => {
