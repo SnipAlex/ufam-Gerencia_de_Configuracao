@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+    ports: 
+      - ${PORT_BACK}:${PORT_BACK}
+    volumes:
+      - ./backend:/usr/src/app
+    env_file: ./backend/.env
+  frontend:
+    build:
+      context: ./frontend
+    ports: 
+      - ${PORT_FRONT}:${PORT_FRONT}
+    volumes:
+      - ./frontend:/usr/src/app
+    env_file: ./frontend/.env
+  db:
+    image: mysql:8.0
+    ports:
+      - ${PORT_MYSQL}:3306
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql:/var/lib/mysql
+      - mysql_config:/etc/mysql
+  
+volumes:
+  mysql:
+  mysql_config:
