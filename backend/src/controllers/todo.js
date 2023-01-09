@@ -1,39 +1,51 @@
-let id = 1;
-const todos = []
+import { Todo } from "../models"
 
-const index = (req, res) => { 
-    res.status(200).json(todos);
-}
-const create = (req, res) => {
+const index = async (req, res) => { 
     try {
-        const newTodo = {
-            id:id++,
-            ...req.body,
-            createAt: new Date()
-        };
-        todos.push(newTodo)
-        res.status(201).json(newTodo)
+        res.status(200).json(todos);
     } catch (error) {
-        res.status(500);
+        res.status(500).json(error)
     }
 }
-const read = (req, res) => {
-    const { id } = req.params;
-    const todo = todos.filter((t) => t.id === id)
-    res.send(todo)
+const create = async (req, res) => {
+    try {
+        const todo = await Todo.create(req.body);
+        res.status(201).json(todo)
+    } catch (error) {
+        res.status(500).json(error);
+    }
 }
-const update = (req, res) => {
-    const { id } = req.params
-    const todoID = todos.findIndex((t) => t.id = id)
-    if (req.body.title) todos[todoID].title = req.body.title;
-    if (req.body.description) todos[todoID].description = req.body.description;
-    if (req.body.isDone) todos[todoID].isDone = req.body.isDone;
-    res.status(200).json({msg: "ToDo atualizado"})
+const read = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const todo = await Todo.findByPk(id)
+        res.status(200).json(todo)
+    } catch (error) {
+        res.status(500).json(error);
+    }
 }
-const remove = (req, res) => {
-    const { id } = req.params
-    todo = todos.filter((u) => u.id !== id)
-    res.status(200).json({msg: "ToDo removido"})
+const update = async (req, res) => {
+    try {
+        const { id } = req.params
+        const [found] = await Todo.update(req.body, {where:{id:id}})
+        if(found) res.send({msg: "Todo atualizado"})
+        else res.status(404).json({msg: "Produto não encontrado"})
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+const remove = async (req, res) => {
+    try
+    {
+        const { id } = req.params;
+        const todo = await Todo.destroy({where:{id:id}});
+        if(todo) res.send({msg: "Todo apagado"});
+        else res.status(404).json({msg: "Todo não encontrado"});
+    }
+    catch(error)
+    {
+        res.status(500).json(error);
+    }
 }
 
 export default {index, create, read, update, remove}
