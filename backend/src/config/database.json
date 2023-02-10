@@ -8,8 +8,8 @@
   },
   "test": {
     "username": "root",
-    "password": 123456,
-    "database": "todo_test",
+    "password": "123456",
+    "database": "todo",
     "host": "db_test",
     "dialect": "mysql"
   },
