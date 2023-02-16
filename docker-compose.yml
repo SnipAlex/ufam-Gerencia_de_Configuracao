@@ -20,7 +20,7 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - ${PORT_MYSQL}:3310
+      - ${PORT_MYSQL}:4100
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -30,10 +30,10 @@ services:
   db_test:
     image: mysql:8.0
     ports:
-      - ${TEST_PORT_MYSQL}:3306
+      - ${TEST_PORT_MYSQL}:4001
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE_TEST}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD_TEST}
     volumes:
       - mysql-test:/var/lib/mysql
       - mysql_config-test:/etc/mysql

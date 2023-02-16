@@ -9,7 +9,7 @@
   "test": {
     "username": "root",
     "password": "123456",
-    "database": "todo",
+    "database": "todo_test",
     "host": "db_test",
     "dialect": "mysql"
   },
