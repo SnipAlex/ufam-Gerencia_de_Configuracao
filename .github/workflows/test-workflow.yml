@@ -1,11 +1,11 @@
 name: Test workflow
-  on: 
-    pull_request:
-      types: [opened, reopened]
-      branches:
-        - master
-      paths:
-        - 'backend/**'
+on: 
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - master
+    paths:
+      - 'backend/**'
   jobs:
     tests:
       runs-on: ubuntu-latest
@@ -51,7 +51,27 @@ name: Test workflow
         - name: Complete job
           run: echo "Job finalizado"
     build:
-      need: [tests]
+      needs: [tests]
+      runs-on: ubuntu-latest
+      outputs:
+        filename: ${{ steps.get-filename.outputs.filename }}
+      steps:
+        - name: Set up job
+        - name: Checkout do repositorio
+        - name: Instalacao do Node
+        - name: Instalacao dos pacotes
+        - name: Run build
+        - name: Get File Name
+        - id: get-filename
+          run:  echo "filename=`ls build/static/js/main.*.js`" >> $GITHUB_OUTPUT
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: build-files
+            path: frontend/build
+        - name: Post Instalacao do Node
+        - name: Post Checkout do repositorio
+        - name: Complete job
     report:
       runs-on: ubuntu-latest
       needs: [tests]
