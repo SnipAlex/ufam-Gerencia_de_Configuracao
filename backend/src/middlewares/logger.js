@@ -11,4 +11,4 @@ function logger(type) {
     }    
 }
 
-export default logger
+module.exports = logger

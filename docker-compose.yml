@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   backend:
+    container_name: todo-app-backend
     build:
       context: ./backend
     ports: 
@@ -19,14 +20,26 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - ${PORT_MYSQL}:3306
+      - ${PORT_MYSQL}:4100
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql:/var/lib/mysql
       - mysql_config:/etc/mysql
+  db_test:
+    image: mysql:8.0
+    ports:
+      - ${TEST_PORT_MYSQL}:4001
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-test:/var/lib/mysql
+      - mysql_config-test:/etc/mysql
   
 volumes:
   mysql:
   mysql_config:
+  mysql-test:
+  mysql_config-test:

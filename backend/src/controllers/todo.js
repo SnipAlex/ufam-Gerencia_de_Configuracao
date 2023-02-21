@@ -36,4 +36,4 @@ const remove = (req, res) => {
     res.status(200).json({msg: "ToDo removido"})
 }
 
-export default {index, create, read, update, remove}
+module.exports = {index, create, read, update, remove}
