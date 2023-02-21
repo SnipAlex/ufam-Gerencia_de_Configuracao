@@ -32,8 +32,8 @@ services:
     ports:
       - ${TEST_PORT_MYSQL}:4001
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE_TEST}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD_TEST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql-test:/var/lib/mysql
       - mysql_config-test:/etc/mysql
