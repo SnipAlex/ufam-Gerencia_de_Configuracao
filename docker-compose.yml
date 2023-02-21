@@ -20,7 +20,7 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - ${PORT_MYSQL}:4100
+      - ${PORT_MYSQL}:${PORT_MYSQL}
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -30,7 +30,7 @@ services:
   db_test:
     image: mysql:8.0
     ports:
-      - ${TEST_PORT_MYSQL}:4001
+      - ${TEST_PORT_MYSQL}:${TEST_PORT_MYSQL}
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
