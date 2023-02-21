@@ -34,6 +34,17 @@ const update = async (req, res) => {
         res.status(500).json(error);
     }
 }
+
+const setAsDone = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await Todo.update({ isDone:true }, { where: { id } })
+        res.status(202).json(data)
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
 const remove = async (req, res) => {
     try
     {
@@ -48,4 +59,4 @@ const remove = async (req, res) => {
     }
 }
 
-export default {index, create, read, update, remove}
+export default {index, create, read, update, remove, setAsDone}
