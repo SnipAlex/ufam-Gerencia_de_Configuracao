@@ -1,11 +1,11 @@
 name: Test workflow
-  on: 
-    pull_request:
-      types: [opened, reopened]
-      branches:
-        - master
-      paths:
-        - 'backend/**'
+on: 
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - master
+    paths:
+      - 'backend/**'
   jobs:
     tests:
       runs-on: ubuntu-latest
@@ -42,16 +42,48 @@ name: Test workflow
             path: |
               backend/coverage
               backend/reports
-        - name: Post Install NodeJs
-          uses: actions/setup-node@v3
-          with:
-            node-version: 18
+        - name: Post Install NodeJS
+          run: |
+            echo "The dependencies have been installed."
+            node -v
         - name: Post Get the code
-          uses: actions/checkout@v3.3.0
+          run: echo "The checkout has been completed."
         - name: Complete job
           run: echo "Job finalizado"
     build:
-      need: [tests]
+      needs: [tests]
+      runs-on: ubuntu-latest
+      outputs:
+        filename: ${{ steps.get-filename.outputs.filename }}
+      steps:
+        - name: Set up job
+        - name: Checkout do repositorio
+          uses: actions/checkout@v3.3.0
+        - name: Instalacao do Node
+          uses: actions/setup-node@v3
+          with: 
+            node-version: 18
+        - name: Instalacao dos pacotes
+          run: npm ci
+        - name: Run build
+          run: npm run build
+        - name: Get File Name
+        - id: get-filename
+          run:  echo "filename=`ls build/static/js/main.*.js`" >> $GITHUB_OUTPUT
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: build-files
+            path: frontend/build
+        - name: Post Instalacao do Node
+          run: |
+            echo "The dependencies have been installed."
+            node -v
+        - name: Post Checkout do repositorio
+          uses: Checkout do repositorio
+          run: echo "The checkout has been completed."
+        - name: Complete job
+          run: echo "Job finalizado"
     report:
       runs-on: ubuntu-latest
       needs: [tests]
