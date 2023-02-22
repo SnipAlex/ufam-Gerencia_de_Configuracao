@@ -1,14 +1,9 @@
-import express from "express"
-import routes from "./routes/routes"
+const app = require("./app")
 
 require("dotenv").config();
 
-const PORT = process.env.PORT_BACK
-const app = express()
+const PORTB = process.env.PORT_BACK
 
-app.use(express.json());
-app.use(routes)
-
-app.listen(PORT, () => {
-    console.log(`Servidor estar rodando ${PORT}.`)
+app.listen(PORTB, () => {
+    console.log(`Servidor estar rodando ${PORTB}.`)
 });

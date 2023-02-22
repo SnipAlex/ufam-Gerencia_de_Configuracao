@@ -1,0 +1,93 @@
+name: Test workflow
+on: 
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - master
+    paths:
+      - 'backend/**'
+  jobs:
+    tests:
+      runs-on: ubuntu-latest
+      env:
+        NODE_ENV: test
+      steps:
+        - name: Get the code
+          uses: actions/checkout@v3.3.0
+        - name: Install NodeJS
+          uses: actions/setup-node@v3
+          with: 
+            node-version: 18
+        - name: Install dependencies
+          run: npm ci
+          working-directory: backend
+        - name: Run Docker Compose
+          run: |
+            docker-compose up -d backend db_test
+            docker ps
+        - name: Sleep for 10 seconds
+          uses: jakejarvis/wait-action@master
+          with:
+            time: "10s"
+        - name: Run migrations
+          run: docker-compose exec -T backend npx sequelize db:migrate --env test
+        - name: Run tests
+          id: run-test
+          run: docker-compose exec -T backend npx jest
+        - name: Upload dos relatórios  de erros
+          if: failure() && steps.run-test.outcome == 'failure'
+          uses: actions/upload-artifact@v3
+          with:
+            name: tests-reports
+            path: |
+              backend/coverage
+              backend/reports
+        - name: Post Install NodeJS
+          run: |
+            echo "The dependencies have been installed."
+            node -v
+        - name: Post Get the code
+          run: echo "The checkout has been completed."
+        - name: Complete job
+          run: echo "Job finalizado"
+    build:
+      needs: [tests]
+      runs-on: ubuntu-latest
+      outputs:
+        filename: ${{ steps.get-filename.outputs.filename }}
+      steps:
+        - name: Set up job
+        - name: Checkout do repositorio
+          uses: actions/checkout@v3.3.0
+        - name: Instalacao do Node
+          uses: actions/setup-node@v3
+          with: 
+            node-version: 18
+        - name: Instalacao dos pacotes
+          run: npm ci
+        - name: Run build
+          run: npm run build
+        - name: Get File Name
+        - id: get-filename
+          run:  echo "filename=`ls build/static/js/main.*.js`" >> $GITHUB_OUTPUT
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: build-files
+            path: frontend/build
+        - name: Post Instalacao do Node
+          run: |
+            echo "The dependencies have been installed."
+            node -v
+        - name: Post Checkout do repositorio
+          uses: Checkout do repositorio
+          run: echo "The checkout has been completed."
+        - name: Complete job
+          run: echo "Job finalizado"
+    report:
+      runs-on: ubuntu-latest
+      needs: [tests]
+      if: failure()
+      steps:
+        - name: saving reports
+          run: echo "saving reports"
