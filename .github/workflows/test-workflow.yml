@@ -82,6 +82,24 @@ jobs:
         run: echo "The checkout has been completed."
       - name: Complete job
         run: echo "Job finalizado"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [tests, build]
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v3
+      - name: Get filename
+        run: echo ${{needs.build.outputs.filename}}
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+      - name: Output contents
+        run: echo "${{ toJSON(github) }}"
+      - name: Run deploy
+        run: npm start
+      - name: Complete job
+        run: echo "Job realizado"
   report:
     runs-on: ubuntu-latest
     needs: [tests]
