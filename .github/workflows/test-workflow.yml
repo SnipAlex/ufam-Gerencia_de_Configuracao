@@ -56,7 +56,6 @@ jobs:
     outputs:
       filename: ${{ steps.get-filename.outputs.filename }}
     steps:
-      - name: Set up job
       - name: Checkout do repositorio
         uses: actions/checkout@v3.3.0
       - name: Instalacao do Node
