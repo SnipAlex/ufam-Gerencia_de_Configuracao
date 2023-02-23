@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header/Header";
+import TodoList from "./components/TodoList/TodoList";
+import TodoCreate from "./components/TodoCreate/TodoCreate";
+import TodoDetails from "./components/TodoDetails/TodoDetails";
+import Container from "react-bootstrap/Container";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <Container>
+        <Routes>
+          <Route path="/" element={<TodoList />}></Route>
+          <Route path="/create" element={<TodoCreate />}></Route>
+          <Route path="/:id" element={<TodoDetails />}></Route>
+        </Routes>
+
+      </Container>
+    </BrowserRouter>
   );
 }
 
