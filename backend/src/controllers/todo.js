@@ -1,10 +1,13 @@
-import { Todo } from "../models"
+const models = require("../models")
+const Todo = models.Todo;
 
 const index = async (req, res) => { 
     try {
-        res.status(200).json(todos);
+        const todos = await Todo.findAll();
+        res.json(todos);
     } catch (error) {
-        res.status(500).json(error)
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' })
     }
 }
 const create = async (req, res) => {
@@ -59,5 +62,4 @@ const remove = async (req, res) => {
     }
 }
 
-
-export default {index, create, read, update, remove, setAsDone}
+module.exports = {index, create, read, update, remove, setAsDone}
