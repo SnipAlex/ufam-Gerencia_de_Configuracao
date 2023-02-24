@@ -40,7 +40,7 @@ function TodoList() {
           alignItems: "center",
         }}
       >
-        <h2>Listangem de Todos</h2>
+        <h2>Listagem de ToDos</h2>
         <div>
           <Button onClick={() => navigate("/create")} variant="primary">
             +
